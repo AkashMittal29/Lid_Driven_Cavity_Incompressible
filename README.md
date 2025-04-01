@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html>
- <head>
- <title> Results Comparing Uniform vs. Non-uniform Grid </title>
- </head>
 <body>
 
 
