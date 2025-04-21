@@ -86,7 +86,7 @@ MODULE mod_field
 
 
         SUBROUTINE printf(self, format)
-            ! Prints x and y values of a 2D grid in matrix form
+            ! Prints field variables value of a 2D grid in matrix form
             CLASS(field_type), INTENT(INOUT) :: self
             CHARACTER(LEN=*), INTENT(IN), OPTIONAL :: format ! eg. format='F7.3'
             INTEGER :: ix_low, ix_up, iy_low, iy_up
