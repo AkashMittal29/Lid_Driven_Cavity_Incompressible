@@ -8,11 +8,13 @@ MODULE mod_field
     PRIVATE
     PUBLIC :: field_type
     PUBLIC :: print_rms_diff_fields
+    PUBLIC :: copy_field ! Not used in solver
 
-    ! Interface block for assignment operator overloading
-    INTERFACE ASSIGNMENT(=)
-      MODULE PROCEDURE copy_field
-    END INTERFACE
+    ! PUBLIC :: ASSIGNMENT(=) ! With ifort (intel) compiler, assignment operator can not be defined on allocatable or pointers. gfortran accepts it. 
+    ! ! Interface block for assignment operator overloading
+    ! INTERFACE ASSIGNMENT(=)
+    !   MODULE PROCEDURE copy_field
+    ! END INTERFACE
 
     TYPE :: field_type
         REAL(KIND=rkind), ALLOCATABLE, DIMENSION(:,:) :: u, v, p ! non-dim
