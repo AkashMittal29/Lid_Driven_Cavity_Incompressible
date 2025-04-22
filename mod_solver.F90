@@ -98,7 +98,12 @@ MODULE mod_solver
             INTEGER :: iter = 0
             
             ALLOCATE(field_new)
-            field_new = self%field
+            field_new = self%field 
+			! Allocation of field_new is necessary since here automatic assignment is called.
+			! Automatic assignment assumes the pointers are already allocated.
+			! In automatic assignments, allocatable attributes are first allocated and then values are copied.
+			! Pointer attributes are referenced/associated without allocating new memory. i.e. pointer attributes point to the same memory.
+			! It is always recommended to make user defined copy subroutine. Anyway, here, automatic copying serves our purpose.
 
             ! Allocating such that ghost nodes are also included and the indexing is preserved
             ALLOCATE( p_dash(LBOUND(self%field%p,1):UBOUND(self%field%p,1), LBOUND(self%field%p,2):UBOUND(self%field%p,2)) )
