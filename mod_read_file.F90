@@ -215,8 +215,8 @@ MODULE mod_read_file
                     
                 ELSE IF(INDEX(text,'=')>0) THEN ! variable
                     ! Splitting text
-                    text1 = TRIM(ADJUSTL(text(1:INDEX(text,'=')-1)))
-                    text2 = TRIM(ADJUSTL(text(INDEX(text,'=')+1:)))
+                    text1 = TRIM(ADJUSTL( tabs_to_spaces( text(1:INDEX(text,'=')-1) ) )) ! TRIM and ADJUSTL only remove spaces, not tabs.
+                    text2 = TRIM(ADJUSTL( tabs_to_spaces( text(INDEX(text,'=')+1:) ) ))
                     IF (LEN_TRIM(text1)==0 .OR. LEN_TRIM(text2)==0) THEN
                         WRITE(error_unit,*) TRIM(text),' Empty variable name or value';
                         CYCLE
@@ -235,7 +235,6 @@ MODULE mod_read_file
                     CALL self%add_variable(sect_name, text1, text2)
                 END IF
 
-                !PRINT*, text
                 IF(ALLOCATED(text1)) DEALLOCATE(text1)
                 IF(ALLOCATED(text2)) DEALLOCATE(text2)
             END DO
@@ -243,6 +242,21 @@ MODULE mod_read_file
 
             !CALL self%print_input_data()
         END SUBROUTINE read_input
+
+
+        FUNCTION tabs_to_spaces(str) RESULT(str2)
+            ! Replaces tabs in a string with spaces.
+            CHARACTER(LEN=*), INTENT(IN):: str
+            CHARACTER(LEN=:), ALLOCATABLE :: str2
+            INTEGER :: i
+
+            str2 = str
+            DO i=1,LEN(str)
+                IF(str2(i:i)==CHAR(9)) THEN ! CHAR(9) -> tab
+                    str2(i:i)=' '
+                END IF
+            END DO
+        END FUNCTION tabs_to_spaces
 
 
         FUNCTION get_index(self, sec_name, var_name) RESULT(ind)
