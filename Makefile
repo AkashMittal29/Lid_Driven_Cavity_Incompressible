@@ -16,7 +16,8 @@ compile: $(OBJ)
 # use -qopenmp for ifort compiler
 
 %.o: %.F90
-	$(compiler) -c $< 
+	$(compiler) -qopenmp -c $< 
+# use -qopenmp for ifort compiler here also to use openmp for parallelization.
 
 run:
 	./run.exe >output.log 2>error.log
